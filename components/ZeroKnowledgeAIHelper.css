@@ -1,0 +1,60 @@
+/* ZeroKnowledgeAIHelper.css */
+.zk-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50; /* Default green */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.zk-button-yellow {
+  background-color: #ffeb3b; /* Yellow when asking */
+  color: black;
+}
+
+.zk-button-green {
+  background-color: #4caf50; /* Green after response */
+}
+
+.zk-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.zk-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.zk-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.zk-chat-reply {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+}

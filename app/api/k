@@ -1,0 +1,28 @@
+// /app/api/chat-legal-help/route.ts
+import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  try {
+    const { redFlag, question } = await request.json();
+
+    const prompt = `You're a contract expert. A user has this concern about a contract clause: "${redFlag}". 
+Question: "${question}". 
+Respond in a clear, concise, helpful way — ideally with a fix or suggestion.`;
+
+    const res = await fetch("http://localhost:11434/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "mistral",
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+
+    const result = await res.json();
+    const reply = result.choices?.[0]?.message?.content?.trim() || "⚠️ No response.";
+    return NextResponse.json({ reply });
+  } catch (err) {
+    console.error("❌ Chatbot error:", err);
+    return NextResponse.json({ reply: "⚠️ Error processing your request." }, { status: 500 });
+  }
+}
