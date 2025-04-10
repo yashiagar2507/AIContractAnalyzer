@@ -8,10 +8,10 @@ export async function POST(request: Request) {
     const retrievedClause = await getRelevantClause(redFlag); // RAG result
 
     const prompt = `
-You're a contract expert. A user flagged: "${redFlag}".
-Relevant context: "${retrievedClause}"
-User question: "${question}"
-Provide a concise legal fix with context-aware advice.
+   You're a contract expert. A user flagged: "${redFlag}".
+   Relevant context: "${retrievedClause}"
+   User question: "${question}"
+   Provide a concise legal fix with context-aware advice.
 `;
 
     const res = await fetch("http://localhost:11434/v1/chat/completions", {

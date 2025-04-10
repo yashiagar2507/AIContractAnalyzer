@@ -50,20 +50,26 @@ function ZeroKnowledgeAIHelper() {
       setChatReply("❌ Please provide a valid red flag and question.");
       return;
     }
-
-    setIsChatLoading(true); // Set chat loading to true when asking the chatbot
-
-    const res = await fetch("/api/chat-legal-help", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ redFlag: chatRedFlag, question: chatQuestion }),
-    });
-
-    const data = await res.json();
-    setChatReply(data.reply || "⚠️ No reply received.");
-
-    setIsChatLoading(false); // Set chat loading to false once the response is received
+  
+    setIsChatLoading(true);
+  
+    try {
+      const response = await fetch('http://localhost:11434/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ redFlag: chatRedFlag, question: chatQuestion }),
+      });
+  
+      const data = await response.json();
+      setChatReply(data.reply || '⚠️ No reply received.');
+    } catch (error) {
+      console.error('Error sending chat request:', error);
+      setChatReply('⚠️ Error processing your request.');
+    } finally {
+      setIsChatLoading(false);
+    }
   };
+  
 
   return (
     <div className="zk-container">
