@@ -12,7 +12,7 @@ function ZeroKnowledgeAIHelper() {
   const [chatRedFlag, setChatRedFlag] = useState("");
   const [showChat, setShowChat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isChatLoading, setIsChatLoading] = useState(false); // New state for chat loading
+  const [isChatLoading, setIsChatLoading] = useState(false);
   const [showOutput, setShowOutput] = useState(true);
 
   useEffect(() => {
@@ -26,10 +26,12 @@ function ZeroKnowledgeAIHelper() {
     }
   }, [outputText, redFlags]);
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;  // Using dynamic API URL
+
   const handleAnalyze = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/analyze", {
+      const res = await fetch(`${apiUrl}/api/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ contractText: inputText }),
@@ -50,16 +52,16 @@ function ZeroKnowledgeAIHelper() {
       setChatReply("❌ Please provide a valid red flag and question.");
       return;
     }
-  
+
     setIsChatLoading(true);
-  
+
     try {
-      const response = await fetch('http://localhost:11434/v1/chat/completions', {
+      const response = await fetch(`${apiUrl}/v1/chat/completions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ redFlag: chatRedFlag, question: chatQuestion }),
       });
-  
+
       const data = await response.json();
       setChatReply(data.reply || '⚠️ No reply received.');
     } catch (error) {
@@ -69,7 +71,6 @@ function ZeroKnowledgeAIHelper() {
       setIsChatLoading(false);
     }
   };
-  
 
   return (
     <div className="zk-container">
